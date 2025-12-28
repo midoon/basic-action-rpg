@@ -5,12 +5,15 @@ extends State
 
 @onready var walk_state: StateWalk = $"../Walk"
 @onready var idle: StateIdle = $"../Idle"
+@onready var sword_sfx: AudioStreamPlayer2D = $"../../SwordSFX"
+
 
 var isAttacking: bool = false
 
 func Enter() -> void:
 	
 	isAttacking = true
+	sword_sfx.play()
 	play_attack_animation()
 
 func Physics(_delta: float) -> State:
@@ -43,6 +46,7 @@ func play_attack_animation():
 	if abs(dir.x) > abs(dir.y):
 		sprite.animation = "attack_side"
 		att_fx.animation = "att_fx_horizontal"
+		att_fx.flip_v = false
 		sprite.flip_h = dir.x < 0
 		att_fx.flip_h = dir.x < 0
 	elif dir.y > 0:
